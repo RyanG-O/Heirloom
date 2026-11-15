@@ -42,7 +42,7 @@ agent/prompt.md  ElevenLabs agent system prompt + dashboard checklist (source of
 ```
 
 ```bash
-npm install            # once, at repo root (npm workspaces)
+npm install            # once, at the REPO ROOT (npm workspaces; needs Node >= 22.12)
 npm run dev            # server + client together → http://localhost:5173
 npm run typecheck      # tsc for client + server
 npm run setup-git-hooks  # enable the commit-freeze guard for manual git commits too
