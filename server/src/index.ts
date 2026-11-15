@@ -12,7 +12,8 @@ import type {
 } from "../../shared/types";
 import { analyzeTurn, emptyAnalysis, exhaustedModels, generateReport } from "./gemini";
 
-config({ path: fileURLToPath(new URL("../../.env", import.meta.url)) });
+// override: the repo .env wins over stale shell variables (e.g. an old ELEVENLABS_AGENT_ID)
+config({ path: fileURLToPath(new URL("../../.env", import.meta.url)), override: true });
 
 const app = express();
 app.use(express.json({ limit: "2mb" }));
@@ -24,6 +25,7 @@ app.get("/api/health", (_req, res) => {
   res.json({
     ok: true,
     elevenlabs: Boolean(env("ELEVENLABS_API_KEY") && env("ELEVENLABS_AGENT_ID")),
+    elevenlabsAgentId: env("ELEVENLABS_AGENT_ID") ?? null, // not secret; lets you confirm which agent the app uses
     gemini: Boolean(env("GEMINI_API_KEY")),
     geminiModel: env("GEMINI_MODEL") ?? null,
     geminiRateLimited: exhaustedModels(),
