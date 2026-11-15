@@ -1,5 +1,6 @@
 import { config } from "dotenv";
 import { fileURLToPath } from "node:url";
+import { existsSync } from "node:fs";
 import express from "express";
 import type {
   AnalyzeTurnRequest,
@@ -12,6 +13,8 @@ import type {
 } from "../../shared/types";
 import { analyzeTurn, emptyAnalysis, exhaustedModels, generateReport } from "./gemini";
 
+// A hosting platform's PORT must win over the .env file (which override:true would otherwise apply).
+const platformPort = process.env.PORT;
 // override: the repo .env wins over stale shell variables (e.g. an old ELEVENLABS_AGENT_ID)
 config({ path: fileURLToPath(new URL("../../.env", import.meta.url)), override: true });
 
@@ -105,5 +108,17 @@ app.post("/api/report", async (req, res) => {
   }
 });
 
-const port = Number(env("PORT") ?? 8787);
+// Production / demo link: after `npm run build`, this server also serves the web app, so the whole
+// app runs at one address (needed for a hosted deploy or a tunnel). In dev, Vite serves the app instead.
+const clientDist = fileURLToPath(new URL("../../client/dist", import.meta.url));
+if (existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.use((req, res, next) => {
+    if (req.method !== "GET" || req.path.startsWith("/api/")) return next();
+    res.sendFile("index.html", { root: clientDist });
+  });
+  console.log(`serving the built web app from ${clientDist}`);
+}
+
+const port = Number(platformPort || env("PORT") || 8787);
 app.listen(port, () => console.log(`server listening on http://localhost:${port}`));

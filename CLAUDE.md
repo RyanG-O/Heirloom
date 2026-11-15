@@ -46,6 +46,7 @@ agent/prompt.md  ElevenLabs agent system prompt + dashboard checklist (source of
 npm install            # once, at the REPO ROOT (npm workspaces; needs Node >= 22.12)
 npm run dev            # server + client together → http://localhost:5173
 npm run typecheck      # tsc for client + server
+npm run build && npm start  # production mode: the server serves the built app + API on one port (8787, or $PORT)
 npm run setup-git-hooks  # enable the commit-freeze guard for manual git commits too
 npm run sync-agent     # push agent/prompt.md's system prompt (+ glossary) to the ElevenLabs agent
 npm run agent-eval     # check the agent's Vietnamese on the tricky sentences in agent/eval-cases.json
