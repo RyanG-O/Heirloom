@@ -27,8 +27,10 @@ export interface TurnAnalysis {
   spans: CodeSwitchSpan[];
   /** 0..1, share of the turn's words that were Vietnamese. */
   vietnameseRatio: number;
-  /** The user's sentence rewritten fully in natural Vietnamese. */
+  /** The user's sentence rewritten fully in natural Vietnamese. Empty when unavailable. */
   fullVietnamese: string;
+  /** Where the translation came from: "glossary" (vetted, instant), a Gemini model id, or "glossary-fallback". */
+  source?: string;
 }
 
 export interface Scenario {
@@ -97,6 +99,8 @@ export interface AnalyzeTurnRequest {
   /** Last few turns for context. */
   context: Turn[];
   scenarioId: string;
+  /** Spans already shown earlier in this session, so repeated words get the same Vietnamese. */
+  known?: CodeSwitchSpan[];
 }
 export type AnalyzeTurnResponse = TurnAnalysis;
 /** POST /api/report */

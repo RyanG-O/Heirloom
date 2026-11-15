@@ -73,8 +73,13 @@ app.post("/api/analyze-turn", async (req, res) => {
   }
   const t0 = Date.now();
   try {
-    const out = await analyzeTurn(turn, Array.isArray(body.context) ? body.context : [], String(body.scenarioId ?? ""));
-    console.log(`[analyze-turn] ${Date.now() - t0}ms spans=${out.spans.length}`);
+    const out = await analyzeTurn(
+      turn,
+      Array.isArray(body.context) ? body.context : [],
+      String(body.scenarioId ?? ""),
+      Array.isArray(body.known) ? body.known.filter((k) => k && typeof k.english === "string" && typeof k.vietnamese === "string") : [],
+    );
+    console.log(`[analyze-turn] ${Date.now() - t0}ms source=${out.source ?? "?"} spans=${out.spans.length}`);
     res.json(out satisfies AnalyzeTurnResponse);
   } catch (e) {
     console.error(`[analyze-turn] failed after ${Date.now() - t0}ms:`, e);

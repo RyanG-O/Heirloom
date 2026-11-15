@@ -7,6 +7,17 @@ description: Gemini prompts, JSON schemas, and Vietnamese language rules for Hei
 
 Contracts live in `shared/types.ts` (`TurnAnalysis`, `CodeSwitchSpan`, `Report`, `AnalyzeTurnRequest`, `ReportRequest`). **Change the types first, then the schema below, then the UI.** Test against `fixtures/` (no mic or API needed for the UI; `fixtures/report.call-ba-ngoai.json` is a reference report and the fixture `analyses` are reference turn outputs).
 
+## How a translation is produced (read this first)
+1. **Vetted glossary** (`shared/glossary.ts`, ~260 common words, Southern default with Northern variants). If every English word in a turn is an unambiguous glossary entry, `/api/analyze-turn` answers instantly from it (`source: "glossary"`), with no Gemini call and no quota used.
+2. **Gemini** for everything else (ambiguous words marked `!` in the glossary, words not in it, whole English clauses). Matching glossary entries are passed as "preferred translations", along with spans already shown this session (`known`), so wording stays consistent.
+3. **Fallback:** if every Gemini model fails, the vetted glossary words are still returned (`source: "glossary-fallback"`).
+
+The same glossary is injected into the ElevenLabs agent prompt by `npm run sync-agent`, so the agent's spoken recasts and the on-screen chips use the same Vietnamese. **To fix or add a translation, edit `shared/glossary.ts`, then run `npm run sync-agent`.**
+
+Translation quality depends on which model answers. The free tier allows ~20 requests/day per model; once `gemini-3.5-flash` is exhausted the chain falls back to lite models, which make more mistakes (wrong dialect labels, skipped words, typos). The server logs `source=` for every analysis and `model=` for every report. Check those first when a translation looks wrong.
+
+Test without burning quota: `npx tsx server/scripts/test-translate.ts` (glossary-only cases); add `--model-too` to include the Gemini cases.
+
 ## SDK (`@google/genai` v3, verified against installed types)
 ```ts
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";

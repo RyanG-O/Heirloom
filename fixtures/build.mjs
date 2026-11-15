@@ -27,7 +27,7 @@ mk(
     ["U", "Dạ con chào Ngoại. Con ăn rồi, con ăn... um... chicken rice với friends."],
     ["A", "À, con ăn cơm gà với bạn hả? Ngon không con?"],
     ["U", "Dạ ngon. Ngoại ơi, tuần này con có midterm, nên con hơi stressed."],
-    ["A", "Ờ, con có bài kiểm tra giữa kỳ hả? Con đừng căng thẳng quá nghe. Con có ngủ đủ không?"],
+    ["A", "Ờ, con có bài thi giữa kỳ hả? Con đừng căng thẳng quá nghe. Con có ngủ đủ không?"],
     ["U", "Dạ không đủ. Con thức khuya để study."],
     ["A", "Trời ơi, học khuya hoài là mệt lắm đó con. Chừng nào con về thăm Ngoại?"],
     ["U", "Con về Thanksgiving. Con nhớ Ngoại lắm."],
@@ -43,8 +43,8 @@ mk(
       { english: "chicken rice", vietnamese: "cơm gà" },
       { english: "friends", vietnamese: "bạn", note: "“bạn bè” is also common for friends in general." },
     ] },
-    { turnId: turns[3].id, vietnameseRatio: 0.8, fullVietnamese: "Dạ ngon. Ngoại ơi, tuần này con có bài kiểm tra giữa kỳ, nên con hơi căng thẳng.", spans: [
-      { english: "midterm", vietnamese: "bài kiểm tra giữa kỳ" },
+    { turnId: turns[3].id, vietnameseRatio: 0.8, fullVietnamese: "Dạ ngon. Ngoại ơi, tuần này con có bài thi giữa kỳ, nên con hơi căng thẳng.", spans: [
+      { english: "midterm", vietnamese: "bài thi giữa kỳ" },
       { english: "stressed", vietnamese: "căng thẳng" },
     ] },
     { turnId: turns[5].id, vietnameseRatio: 0.86, fullVietnamese: "Dạ không đủ. Con thức khuya để học bài.", spans: [
@@ -92,7 +92,7 @@ const report = {
     "You held a full catch-up call with Bà Ngoại and stayed in Vietnamese for most of it. Your kinship pronouns (con/Ngoại) and polite “Dạ” were consistent throughout. You reached for English mostly on school words and everyday nouns.",
   vietnameseRatio: 0.82,
   missingWords: [
-    { english: "midterm", vietnamese: "bài kiểm tra giữa kỳ", example: "Tuần này con có bài kiểm tra giữa kỳ.", count: 1 },
+    { english: "midterm", vietnamese: "bài thi giữa kỳ", example: "Tuần này con có bài thi giữa kỳ.", count: 1 },
     { english: "stressed", vietnamese: "căng thẳng", example: "Con hơi căng thẳng.", count: 1 },
     { english: "study", vietnamese: "học bài", example: "Con thức khuya để học bài.", count: 1 },
     { english: "garden", vietnamese: "vườn", example: "Vườn của Ngoại sao rồi?", count: 1 },

@@ -2,7 +2,7 @@
   "id": "fx-ngoai",
   "scenarioId": "call-ba-ngoai",
   "startedAt": "2026-11-15T03:00:00.000Z",
-  "endedAt": "2026-11-15T03:01:29.140Z",
+  "endedAt": "2026-11-15T03:01:28.840Z",
   "turns": [
     {
       "id": "fx-ngoai-t0",
@@ -31,62 +31,62 @@
     {
       "id": "fx-ngoai-t4",
       "speaker": "agent",
-      "text": "Ờ, con có bài kiểm tra giữa kỳ hả? Con đừng căng thẳng quá nghe. Con có ngủ đủ không?",
-      "t": 30800
+      "text": "Ờ, con có bài thi giữa kỳ hả? Con đừng căng thẳng quá nghe. Con có ngủ đủ không?",
+      "t": 30500
     },
     {
       "id": "fx-ngoai-t5",
       "speaker": "user",
       "text": "Dạ không đủ. Con thức khuya để study.",
-      "t": 35520
+      "t": 35220
     },
     {
       "id": "fx-ngoai-t6",
       "speaker": "agent",
       "text": "Trời ơi, học khuya hoài là mệt lắm đó con. Chừng nào con về thăm Ngoại?",
-      "t": 42280
+      "t": 41980
     },
     {
       "id": "fx-ngoai-t7",
       "speaker": "user",
       "text": "Con về Thanksgiving. Con nhớ Ngoại lắm.",
-      "t": 47120
+      "t": 46820
     },
     {
       "id": "fx-ngoai-t8",
       "speaker": "agent",
       "text": "Ngoại cũng nhớ con lắm! Lễ Tạ Ơn con về, Ngoại nấu canh chua cho con ăn nghe.",
-      "t": 54240
+      "t": 53940
     },
     {
       "id": "fx-ngoai-t9",
       "speaker": "user",
       "text": "Dạ yay! Con thích canh chua nhất. Ngoại khỏe không? Cái garden của Ngoại sao rồi?",
-      "t": 61600
+      "t": 61300
     },
     {
       "id": "fx-ngoai-t10",
       "speaker": "agent",
       "text": "Ngoại khỏe. Vườn của Ngoại năm nay trồng được nhiều rau thơm lắm, có húng quế, ngò gai nữa.",
-      "t": 69560
+      "t": 69260
     },
     {
       "id": "fx-ngoai-t11",
       "speaker": "user",
       "text": "Wow, con muốn help Ngoại trong vườn khi con về.",
-      "t": 74880
+      "t": 74580
     },
     {
       "id": "fx-ngoai-t12",
       "speaker": "agent",
       "text": "Được chứ, con về phụ Ngoại tưới cây nghe. Thôi con đi học đi, nhớ ăn uống đầy đủ nha con.",
-      "t": 82720
+      "t": 82420
     },
     {
       "id": "fx-ngoai-t13",
       "speaker": "user",
       "text": "Dạ, con thương Ngoại. Bye Ngoại!",
-      "t": 87140
+      "t": 86840
     }
   ],
   "analyses": [
@@ -109,11 +109,11 @@
     {
       "turnId": "fx-ngoai-t3",
       "vietnameseRatio": 0.8,
-      "fullVietnamese": "Dạ ngon. Ngoại ơi, tuần này con có bài kiểm tra giữa kỳ, nên con hơi căng thẳng.",
+      "fullVietnamese": "Dạ ngon. Ngoại ơi, tuần này con có bài thi giữa kỳ, nên con hơi căng thẳng.",
       "spans": [
         {
           "english": "midterm",
-          "vietnamese": "bài kiểm tra giữa kỳ"
+          "vietnamese": "bài thi giữa kỳ"
         },
         {
           "english": "stressed",

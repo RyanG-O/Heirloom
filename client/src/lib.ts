@@ -52,9 +52,9 @@ export async function postJson<T>(url: string, body: unknown, signal?: AbortSign
 }
 
 export function coachNote(a: TurnAnalysis) {
-  return `Coach note: the learner just missed: ${a.spans
+  return `Coach note: the learner just used English for: ${a.spans
     .map((s) => `"${s.english}" = "${s.vietnamese}"`)
-    .join(", ")}. Model these Vietnamese words naturally in your next reply; don't call them out.`;
+    .join(", ")}. Use exactly these Vietnamese words when the topic comes up again; don't call them out.`;
 }
 
 /** Split text into plain segments and span segments (exact substring, longest first, no overlaps). */

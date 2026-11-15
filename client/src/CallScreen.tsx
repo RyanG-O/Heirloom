@@ -66,7 +66,9 @@ export default function CallScreen({
     (turn: Turn) => {
       if (IS_MOCK) return; // mock mode uses fixture analyses
       const context = turnsRef.current.filter((t) => t.id !== turn.id).slice(-4);
-      const body: AnalyzeTurnRequest = { turn, context, scenarioId: scenario.id };
+      // Earlier spans keep repeated words consistent across the conversation.
+      const known = Object.values(analysesRef.current).flatMap((a) => a.spans ?? []);
+      const body: AnalyzeTurnRequest = { turn, context, scenarioId: scenario.id, known };
       setPending((p) => new Set(p).add(turn.id));
       postJson<TurnAnalysis>("/api/analyze-turn", body)
         .then((a) => {

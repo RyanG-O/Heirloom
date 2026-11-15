@@ -1,0 +1,151 @@
+[
+  {
+    "id": "fried-chicken",
+    "scenarioId": "order-pho",
+    "user": "Ờ, ba người con ăn, ờ, fried chicken á.",
+    "expect": [
+      "gà chiên"
+    ],
+    "reject": [
+      "cơm gà",
+      "gà rán"
+    ]
+  },
+  {
+    "id": "no-onions-sprouts",
+    "scenarioId": "order-pho",
+    "user": "Cho con một tô phở tái, no onions, và extra bean sprouts.",
+    "expect": [
+      "không (bỏ |lấy |ăn |để |có )?hành|đừng (bỏ|để) hành|bỏ hành",
+      "thêm giá|giá nhiều|nhiều giá"
+    ],
+    "reject": [
+      "giá đỗ"
+    ]
+  },
+  {
+    "id": "allergic-peanuts",
+    "scenarioId": "order-pho",
+    "user": "Cô ơi, con bị allergic với peanuts.",
+    "expect": [
+      "dị ứng",
+      "đậu phộng|lạc"
+    ]
+  },
+  {
+    "id": "togo-check",
+    "scenarioId": "order-pho",
+    "user": "Cô ơi, cho con một cái to-go box với the check.",
+    "expect": [
+      "hộp",
+      "tính tiền"
+    ]
+  },
+  {
+    "id": "spicy-cilantro",
+    "scenarioId": "order-pho",
+    "user": "Con muốn spicy, mà không có cilantro nha cô.",
+    "expect": [
+      "cay",
+      "ngò"
+    ],
+    "reject": [
+      "rau mùi"
+    ]
+  },
+  {
+    "id": "iced-coffee",
+    "scenarioId": "order-pho",
+    "user": "Cho con hai ly iced coffee với milk.",
+    "expect": [
+      "cà phê sữa đá"
+    ]
+  },
+  {
+    "id": "apartment-roommate",
+    "scenarioId": "call-ba-ngoai",
+    "user": "Dạ con ăn rồi. Con mới move vô apartment mới với roommate.",
+    "expect": [
+      "dọn|chuyển",
+      "căn hộ|chung cư",
+      "bạn cùng phòng|bạn ở chung|bạn chung phòng"
+    ]
+  },
+  {
+    "id": "interview-nervous",
+    "scenarioId": "call-ba-ngoai",
+    "user": "Tuần sau con có job interview, con hơi nervous.",
+    "expect": [
+      "phỏng vấn",
+      "hồi hộp|lo"
+    ]
+  },
+  {
+    "id": "doctor-medicine",
+    "scenarioId": "call-ba-ngoai",
+    "user": "Con bị cảm, con phải đi doctor lấy medicine.",
+    "expect": [
+      "bác sĩ",
+      "thuốc"
+    ]
+  },
+  {
+    "id": "grocery-dinner-boyfriend",
+    "scenarioId": "call-ba-ngoai",
+    "user": "Hôm qua con đi grocery shopping rồi con nấu dinner cho boyfriend.",
+    "expect": [
+      "đi chợ|siêu thị",
+      "bữa tối|cơm tối|cơm chiều|ăn tối",
+      "bạn trai"
+    ]
+  },
+  {
+    "id": "traffic-late",
+    "scenarioId": "call-ba-ngoai",
+    "user": "Con lái xe bị traffic nên con tới late.",
+    "expect": [
+      "kẹt xe",
+      "trễ"
+    ]
+  },
+  {
+    "id": "group-project-lazy",
+    "scenarioId": "tell-parents-news",
+    "user": "Con có group project, mà teammate của con lazy quá Mẹ ơi.",
+    "expect": [
+      "nhóm",
+      "làm biếng|lười"
+    ]
+  },
+  {
+    "id": "sick-expensive",
+    "scenarioId": "call-ba-ngoai",
+    "user": "Tuần rồi con bị sick, mà thuốc ở đây expensive quá Ngoại ơi.",
+    "expect": [
+      "bệnh",
+      "mắc"
+    ],
+    "reject": [
+      "\\bốm\\b",
+      "đắt"
+    ]
+  },
+  {
+    "id": "midterm-stressed",
+    "scenarioId": "call-ba-ngoai",
+    "user": "Dạ ngon. Ngoại ơi, tuần này con có midterm, nên con hơi stressed.",
+    "expect": [
+      "thi giữa kỳ",
+      "căng thẳng"
+    ]
+  },
+  {
+    "id": "internship-housing",
+    "scenarioId": "tell-parents-news",
+    "user": "Mẹ ơi, con có tin vui! Con được một internship ở Seattle, công ty cho con housing nữa.",
+    "expect": [
+      "thực tập",
+      "chỗ ở"
+    ]
+  }
+]
