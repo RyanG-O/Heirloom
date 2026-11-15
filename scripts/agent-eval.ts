@@ -4,7 +4,7 @@
 // Cloud sessions: prefix with NODE_USE_ENV_PROXY=1.
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { config } from "dotenv";
-import { getScenario } from "../shared/scenarios";
+import { getScenario, buildDynamicVariables, seededRandom } from "../shared/scenarios";
 
 const root = new URL("../", import.meta.url);
 config({ path: new URL(".env", root), quiet: true, override: true });
@@ -30,7 +30,7 @@ const cache: Record<string, string> = existsSync(cacheUrl) ? JSON.parse(readFile
 const strip = (s: string) => s.replace(/\[[a-z ]+\]\s*/gi, "").replace(/\s{2,}/g, " ").trim();
 
 for (const c of cases) {
-  const k = `${c.id}:${c.user}`;
+  const k = `v2:${c.id}:${c.user}`;
   if (cache[k]) continue;
   const s = getScenario(c.scenarioId)!;
   const { id } = await api("/agent-testing/create", {
@@ -46,14 +46,8 @@ for (const c of cases) {
         "The agent replies in natural Vietnamese and accurately uses the Vietnamese equivalent of each English word the user used, without changing its meaning.",
       success_examples: [{ type: "success", response: "À, con muốn ăn gà chiên hả? Tiệm cô chỉ có phở thôi con." }],
       failure_examples: [{ type: "failure", response: "You should say that in Vietnamese." }],
-      dynamic_variables: {
-        persona: s.persona,
-        situation: s.situation,
-        agent_calls_user: s.agentCallsUser,
-        user_calls_agent: s.userCallsAgent,
-        first_message: s.firstMessage,
-        target_vocab: s.targetVocab.map((v) => `${v.vi} (${v.en})`).join(", "),
-      },
+      // Fixed seed: the test always replays the same opener/topics/news, so results stay comparable.
+      dynamic_variables: { ...buildDynamicVariables(s, seededRandom(42)), first_message: s.firstMessage },
     }),
   });
   cache[k] = id;
@@ -74,7 +68,7 @@ const t0 = Date.now();
 const inv = await api(`/agents/${agentId}/run-tests`, {
   method: "POST",
   body: JSON.stringify({
-    tests: cases.map((c) => ({ test_id: cache[`${c.id}:${c.user}`] })),
+    tests: cases.map((c) => ({ test_id: cache[`v2:${c.id}:${c.user}`] })),
     ...(override ? { agent_config_override: override } : {}),
   }),
 });
@@ -87,7 +81,7 @@ for (let i = 0; i < 60; i++) {
 let pass = 0;
 console.log(`\n=== agent eval  llm=${llm ?? "(agent default)"} temp=${temp ?? "(default)"}  ${((Date.now() - t0) / 1000).toFixed(0)}s`);
 for (const c of cases) {
-  const run = res.test_runs.find((r: any) => r.test_id === cache[`${c.id}:${c.user}`]);
+  const run = res.test_runs.find((r: any) => r.test_id === cache[`v2:${c.id}:${c.user}`]);
   const reply = strip(
     (run?.agent_responses ?? [])
       .filter((m: any) => m.role === "agent" && m.message)

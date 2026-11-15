@@ -37,14 +37,7 @@ async function start(scenarioId: string) {
     conversationToken: token,
     connectionType: "webrtc",              // fallback: { signedUrl } from /api/signed-url (websocket)
     stripAudioTags: true,                  // REQUIRED: v4 expressive tags like [sad] [slow] otherwise appear in text
-    dynamicVariables: {                    // fills {{...}} in agent/prompt.md
-      persona: s.persona,
-      situation: s.situation,
-      agent_calls_user: s.agentCallsUser,
-      user_calls_agent: s.userCallsAgent,
-      first_message: s.firstMessage,
-      target_vocab: s.targetVocab.map((v) => `${v.vi} (${v.en})`).join(", "),
-    },
+    dynamicVariables: buildDynamicVariables(s), // shared/scenarios.ts: fills {{...}} in agent/prompt.md, randomized per call
   });
 }
 // conversation.endSession(); conversation.status; conversation.isSpeaking

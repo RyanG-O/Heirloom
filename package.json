@@ -12,7 +12,8 @@
     "typecheck": "npm run typecheck -w client && npm run typecheck -w server",
     "setup-git-hooks": "git config core.hooksPath .githooks",
     "sync-agent": "tsx scripts/sync-agent.ts",
-    "agent-eval": "tsx scripts/agent-eval.ts"
+    "agent-eval": "tsx scripts/agent-eval.ts",
+    "agent-variety": "tsx scripts/agent-variety.ts"
   },
   "devDependencies": {
     "concurrently": "^10.0.7",

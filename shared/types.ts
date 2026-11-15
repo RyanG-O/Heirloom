@@ -45,9 +45,13 @@ export interface Scenario {
   userCallsAgent: string;
   /** Agent's opening line (Vietnamese). */
   firstMessage: string;
-  /** Situation + goals injected into the agent prompt. */
+  /** Setting injected into the agent prompt (not a checklist; topics come from `topics`). */
   situation: string;
   targetVocab: { vi: string; en: string }[];
+  /** Variety: each call picks one opener, a few topics (shuffled) and one piece of the persona's own news. */
+  openers?: string[];
+  topics?: string[];
+  personaNews?: string[];
 }
 
 export interface Session {

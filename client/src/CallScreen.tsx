@@ -11,6 +11,7 @@ import type {
 } from "../../shared/types";
 import { IS_MOCK, cleanText, coachNote, getFixtureSession, personaName, postJson, readError } from "./lib";
 import Transcript from "./Transcript";
+import { buildDynamicVariables } from "../../shared/scenarios";
 
 const WS_KEY = "heirloom.useWebSocket";
 const MOCK_TURN_MS = 1200;
@@ -182,14 +183,8 @@ export default function CallScreen({
       return;
     }
 
-    const dynamicVariables = {
-      persona: scenario.persona,
-      situation: scenario.situation,
-      agent_calls_user: scenario.agentCallsUser,
-      user_calls_agent: scenario.userCallsAgent,
-      first_message: scenario.firstMessage,
-      target_vocab: scenario.targetVocab.map((v) => `${v.vi} (${v.en})`).join(", "),
-    };
+    // A fresh opener, topic mix and bit of persona news on every call, so practice calls don't repeat.
+    const dynamicVariables = buildDynamicVariables(scenario);
 
     try {
       const url = useWs ? "/api/signed-url" : "/api/conversation-token";

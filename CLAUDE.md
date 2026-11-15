@@ -49,6 +49,7 @@ npm run typecheck      # tsc for client + server
 npm run setup-git-hooks  # enable the commit-freeze guard for manual git commits too
 npm run sync-agent     # push agent/prompt.md's system prompt (+ glossary) to the ElevenLabs agent
 npm run agent-eval     # check the agent's Vietnamese on the tricky sentences in agent/eval-cases.json
+npm run agent-variety  # simulate calls and measure how repetitive the agent is
 ```
 **Cloud sessions only:** prefix server/script commands with `NODE_USE_ENV_PROXY=1` (Node `fetch` ignores the container's HTTPS proxy otherwise). The `.env` with real keys exists only in the container where it was created; it's gitignored, so each machine needs its own copy.
 `GET /api/health` reports which keys are configured. Keys go in the root `.env` (see `.env.example`).
@@ -74,6 +75,7 @@ React (Vite) ──► ElevenLabs Agent (WebRTC via @elevenlabs/react v1 `useCon
 
 - **No API keys in the browser.** All ElevenLabs/Gemini calls that need keys go through `server/`.
 - **Live code-switch loop (stretch, high demo value):** after each *user* turn, call `/api/analyze-turn` asynchronously and get a `TurnAnalysis` (`spans: [{ english, vietnamese, note? }]`). Highlight the spans in the transcript and push them to the agent via `sendContextualUpdate` so it models the Vietnamese word in its next reply. Never block the conversation on Gemini.
+- **Conversation variety:** every call gets a random opener, 4 shuffled topic ideas and one piece of the persona's own news (`buildDynamicVariables()` in `shared/scenarios.ts`); the agent prompt has "sound like a real person" rules (follow up, don't always ask a question, vary openers, limit nagging). Add more openers/topics/news to a scenario for even more variety.
 - **Translation quality:** common words come from the vetted glossary in `shared/glossary.ts` (instant, no Gemini quota); Gemini handles the rest with the glossary as hints. The agent prompt gets the same glossary, so voice and chips agree. Fix a wrong translation by editing the glossary, then `npm run sync-agent`.
 - **Report:** `/api/report` returns a `Report` (see `shared/types.ts`) using Gemini structured output (`responseJsonSchema`). `fixtures/report.call-ba-ngoai.json` is the reference example.
 - **Persistence (optional)**: store sessions, transcripts and reports in **Neon Postgres**. This also qualifies the project for the Neon track (see §5). If time is short, use in-memory or localStorage.
