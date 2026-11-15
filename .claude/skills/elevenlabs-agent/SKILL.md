@@ -36,6 +36,7 @@ async function start(scenarioId: string) {
   conversation.startSession({
     conversationToken: token,
     connectionType: "webrtc",              // fallback: { signedUrl } from /api/signed-url (websocket)
+    stripAudioTags: true,                  // REQUIRED: v4 expressive tags like [sad] [slow] otherwise appear in text
     dynamicVariables: {                    // fills {{...}} in agent/prompt.md
       persona: s.persona,
       situation: s.situation,
@@ -72,13 +73,18 @@ We use **dynamic variables** (`{{var}}` in the dashboard prompt/first message). 
 ## Language / voice
 - Agent language `vi`, with `en` as an additional language. Language codes include `"vi"` and `"en"`.
 - TTS model ids in the SDK types: `eleven_multilingual_v2`, `eleven_v3_conversational`, `eleven_flash_v2_5`, `eleven_turbo_v2_5`, `eleven_v4`, `eleven_v4_turbo`. Check in the dashboard which support Vietnamese.
-- `stripAudioTags: true` in session config removes `[laughs]`-style tags from `onMessage` text, which keeps the transcript clean.
+- **Always pass `stripAudioTags: true` in `startSession`.** The agent uses `eleven_v4_turbo` with expressive mode, so agent text contains tags like `[sad]`, `[slow]` and `[excited]`. Server-side, also strip `/\[[a-z ]+\]/g` from agent turns before sending them to Gemini.
 
 ## Mock mode (no mic / cloud sessions)
 Claude's cloud container has no microphone. For verification and as the demo fallback, `?mock=1` should replay `fixtures/session.<scenarioId>.json` turns through the **same `addTurn` path** `onMessage` uses, with delays from `turn.t`. Build the UI against that path, not against the SDK directly.
 
+## Changing the agent
+The agent was created via the API; its config is recorded in `agent/prompt.md`. To change the prompt, edit `agent/prompt.md` and run `npm run sync-agent`. For other settings, PATCH `https://api.elevenlabs.io/v1/convai/agents/$ELEVENLABS_AGENT_ID` with a partial `conversation_config`, and update the table in `agent/prompt.md`. The OpenAPI spec is at `https://api.elevenlabs.io/openapi.json`. Note that `/simulate-conversation` was removed on 31 Oct 2026; use `/v1/convai/agent-testing/create` + `/v1/convai/agents/{id}/run-tests` + `/v1/convai/test-invocations/{id}`.
+
+**Cloud sessions:** Node's `fetch` ignores `HTTPS_PROXY`. Run the server and scripts with `NODE_USE_ENV_PROXY=1` (e.g. `NODE_USE_ENV_PROXY=1 npm run dev`). This isn't needed on a laptop.
+
 ## Debugging checklist
-1. `GET /api/health` → `elevenlabs: true`?
+1. `GET /api/health` → `elevenlabs: true`? In a cloud session, `fetch failed` means the server was started without `NODE_USE_ENV_PROXY=1`.
 2. `/api/conversation-token` returns 401 → bad key; 404/422 → wrong agent id or the agent isn't private.
 3. Connects, then disconnects immediately → check `onDisconnect` details and `onError`; the dashboard's conversation history shows server-side errors.
 4. Agent ignores scenario → dynamic variable names must match `{{names}}` in the dashboard exactly.

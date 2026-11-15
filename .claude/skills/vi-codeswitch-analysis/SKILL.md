@@ -12,7 +12,7 @@ Contracts live in `shared/types.ts` (`TurnAnalysis`, `CodeSwitchSpan`, `Report`,
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const res = await ai.models.generateContent({
-  model: process.env.GEMINI_MODEL!,           // never hardcode; default in .env.example
+  model: process.env.GEMINI_MODEL!,           // never hardcode; currently gemini-3.5-flash (verified working)
   contents: prompt,                          // string or Content[]
   config: {
     systemInstruction: SYSTEM,
@@ -60,7 +60,7 @@ Schema:
 Add `turnId` server-side; don't ask the model for it.
 
 ## Learning report (`POST /api/report`)
-Send the whole transcript as `Speaker: text` lines, the scenario (`getScenario(session.scenarioId)`), and any per-turn `analyses` already computed. Merging them makes the report consistent with what the user saw live.
+Strip ElevenLabs audio tags (`/\[[a-z ]+\]/g`, e.g. `[sad]`) from agent turns first. Send the whole transcript as `Speaker: text` lines, the scenario (`getScenario(session.scenarioId)`), and any per-turn `analyses` already computed. Merging them makes the report consistent with what the user saw live.
 
 System instruction additions:
 ```

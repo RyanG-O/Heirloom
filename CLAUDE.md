@@ -46,7 +46,9 @@ npm install            # once, at repo root (npm workspaces)
 npm run dev            # server + client together → http://localhost:5173
 npm run typecheck      # tsc for client + server
 npm run setup-git-hooks  # enable the commit-freeze guard for manual git commits too
+npm run sync-agent     # push agent/prompt.md's system prompt to the ElevenLabs agent
 ```
+**Cloud sessions only:** prefix server/script commands with `NODE_USE_ENV_PROXY=1` (Node `fetch` ignores the container's HTTPS proxy otherwise). The `.env` with real keys exists only in the container where it was created; it's gitignored, so each machine needs its own copy.
 `GET /api/health` reports which keys are configured. Keys go in the root `.env` (see `.env.example`).
 
 **Verifying without a mic:** cloud sessions have no audio. Use mock mode (`?mock=1`, replays fixtures) plus a Playwright screenshot. Only a human on a laptop can verify the live voice call.

@@ -1,15 +1,24 @@
 # ElevenLabs Agent configuration (source of truth)
 
-Paste these into the agent in the ElevenLabs dashboard (Conversational AI → Agents). Keep this file in sync with the dashboard.
+The Heirloom agent was created via the API on Sat 11/14 (its ID lives in `.env` as `ELEVENLABS_AGENT_ID`). **Edit the prompt below, then run `npm run sync-agent`** to push it (`--dry-run` to preview). Don't edit the prompt in the dashboard, or this file goes stale.
 
-## Dashboard checklist
-- **Agent language:** Vietnamese (`vi`). Add **English** as an additional language so ASR handles code-switching. Test mixed sentences early; this is the #1 project risk.
-- **Voice:** a natural Vietnamese voice (search the Voice Library for "Vietnamese"; prefer a warm, older voice for Bà Ngoại). Use a multilingual TTS model (e.g. `eleven_multilingual_v2` or `eleven_v3_conversational`; check which ones the dashboard offers for `vi`).
-- **First message:** `{{first_message}}`
-- **System prompt:** the block below. The `{{...}}` values are dynamic variables passed by the client from `shared/scenarios.ts`.
-- **Security tab:** enable authentication (the private agent is reached via the server's `/api/conversation-token`). Overrides are *not* needed because we use dynamic variables.
-- **Turn-taking:** set patience to high or eagerness to low. Learners pause mid-sentence searching for words; don't cut them off.
-- Copy the **Agent ID** into `.env` as `ELEVENLABS_AGENT_ID`.
+## Current configuration
+| Setting | Value |
+|---|---|
+| Name | Heirloom — Vietnamese family practice |
+| Language | `vi` (ASR is multilingual Scribe Realtime; English words in mixed speech are transcribed as English) |
+| LLM | `gemini-3.5-flash`, temperature 0.6 |
+| Voice | "Phuong Loan" (`EMReIZ5lTnliUU7kH10X`), warm middle-aged Southern Vietnamese female, added to the account's voice library |
+| TTS model | `eleven_v4_turbo` (supports Vietnamese; expressive mode emits tags like `[sad]` `[slow]` in text, so the client must pass `stripAudioTags: true`) |
+| Turn-taking | eagerness `patient`, turn timeout 10 s (learners pause to search for words) |
+| First message | `{{first_message}}` |
+| Dynamic variables | `persona`, `situation`, `agent_calls_user`, `user_calls_agent`, `first_message`, `target_vocab` (from `shared/scenarios.ts`) |
+| Auth | enabled; clients connect via the server's `/api/conversation-token` |
+| Max duration | 10 min |
+
+**Simulation test** "Heirloom: code-switch recasting (Bà Ngoại)" exists in the ElevenLabs dashboard (Agents → Tests). It **passed** on the first run: the agent recast study→học bài, midterm→bài kiểm tra giữa kỳ, stressed→căng thẳng, Thanksgiving→Lễ Tạ Ơn, and answered "how do you say homework?" with "bài tập về nhà". Re-run it after prompt changes.
+
+Still to verify by voice on a laptop: ASR quality on real mixed English/Vietnamese speech.
 
 ## System prompt
 
