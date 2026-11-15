@@ -2,10 +2,15 @@ import { config } from "dotenv";
 import { fileURLToPath } from "node:url";
 import express from "express";
 import type {
+  AnalyzeTurnRequest,
+  AnalyzeTurnResponse,
   ApiError,
   ConversationTokenResponse,
+  ReportRequest,
+  ReportResponse,
   SignedUrlResponse,
 } from "../../shared/types";
+import { analyzeTurn, emptyAnalysis, exhaustedModels, generateReport } from "./gemini";
 
 config({ path: fileURLToPath(new URL("../../.env", import.meta.url)) });
 
@@ -21,6 +26,7 @@ app.get("/api/health", (_req, res) => {
     elevenlabs: Boolean(env("ELEVENLABS_API_KEY") && env("ELEVENLABS_AGENT_ID")),
     gemini: Boolean(env("GEMINI_API_KEY")),
     geminiModel: env("GEMINI_MODEL") ?? null,
+    geminiRateLimited: exhaustedModels(),
   });
 });
 
@@ -55,14 +61,41 @@ app.get("/api/signed-url", async (_req, res) => {
   }
 });
 
-// TODO(Session B): Gemini code-switch analysis. See .claude/skills/vi-codeswitch-analysis.
-app.post("/api/analyze-turn", (_req, res) => {
-  res.status(501).json({ error: "not implemented" } satisfies ApiError);
+// Gemini: code-switch analysis for one user turn. Never fails mid-call: errors → empty analysis (200).
+app.post("/api/analyze-turn", async (req, res) => {
+  const body = req.body as Partial<AnalyzeTurnRequest>;
+  const turn = body?.turn;
+  if (!turn || typeof turn.text !== "string" || typeof turn.id !== "string") {
+    res.status(400).json({ error: "body must be { turn: Turn, context: Turn[], scenarioId }" } satisfies ApiError);
+    return;
+  }
+  const t0 = Date.now();
+  try {
+    const out = await analyzeTurn(turn, Array.isArray(body.context) ? body.context : [], String(body.scenarioId ?? ""));
+    console.log(`[analyze-turn] ${Date.now() - t0}ms spans=${out.spans.length}`);
+    res.json(out satisfies AnalyzeTurnResponse);
+  } catch (e) {
+    console.error(`[analyze-turn] failed after ${Date.now() - t0}ms:`, e);
+    res.json(emptyAnalysis(turn) satisfies AnalyzeTurnResponse);
+  }
 });
 
-// TODO(Session B): Gemini learning report. See .claude/skills/vi-codeswitch-analysis.
-app.post("/api/report", (_req, res) => {
-  res.status(501).json({ error: "not implemented" } satisfies ApiError);
+// Gemini: end-of-session learning report. Errors → 502 so the client can offer Retry.
+app.post("/api/report", async (req, res) => {
+  const session = (req.body as Partial<ReportRequest>)?.session;
+  if (!session || !Array.isArray(session.turns)) {
+    res.status(400).json({ error: "body must be { session: Session }" } satisfies ApiError);
+    return;
+  }
+  const t0 = Date.now();
+  try {
+    const report = await generateReport(session);
+    console.log(`[report] ${Date.now() - t0}ms missingWords=${report.missingWords.length}`);
+    res.json(report satisfies ReportResponse);
+  } catch (e) {
+    console.error(`[report] failed after ${Date.now() - t0}ms:`, e);
+    res.status(502).json({ error: `Report generation failed: ${e instanceof Error ? e.message : String(e)}` } satisfies ApiError);
+  }
 });
 
 const port = Number(env("PORT") ?? 8787);
