@@ -1,0 +1,177 @@
+{
+  "id": "fx-ngoai",
+  "scenarioId": "call-ba-ngoai",
+  "startedAt": "2026-11-15T03:00:00.000Z",
+  "endedAt": "2026-11-15T03:01:29.140Z",
+  "turns": [
+    {
+      "id": "fx-ngoai-t0",
+      "speaker": "agent",
+      "text": "Alô, con hả? Ngoại nè! Con ăn cơm chưa?",
+      "t": 4840
+    },
+    {
+      "id": "fx-ngoai-t1",
+      "speaker": "user",
+      "text": "Dạ con chào Ngoại. Con ăn rồi, con ăn... um... chicken rice với friends.",
+      "t": 11660
+    },
+    {
+      "id": "fx-ngoai-t2",
+      "speaker": "agent",
+      "text": "À, con ăn cơm gà với bạn hả? Ngon không con?",
+      "t": 16800
+    },
+    {
+      "id": "fx-ngoai-t3",
+      "speaker": "user",
+      "text": "Dạ ngon. Ngoại ơi, tuần này con có midterm, nên con hơi stressed.",
+      "t": 23200
+    },
+    {
+      "id": "fx-ngoai-t4",
+      "speaker": "agent",
+      "text": "Ờ, con có bài kiểm tra giữa kỳ hả? Con đừng căng thẳng quá nghe. Con có ngủ đủ không?",
+      "t": 30800
+    },
+    {
+      "id": "fx-ngoai-t5",
+      "speaker": "user",
+      "text": "Dạ không đủ. Con thức khuya để study.",
+      "t": 35520
+    },
+    {
+      "id": "fx-ngoai-t6",
+      "speaker": "agent",
+      "text": "Trời ơi, học khuya hoài là mệt lắm đó con. Chừng nào con về thăm Ngoại?",
+      "t": 42280
+    },
+    {
+      "id": "fx-ngoai-t7",
+      "speaker": "user",
+      "text": "Con về Thanksgiving. Con nhớ Ngoại lắm.",
+      "t": 47120
+    },
+    {
+      "id": "fx-ngoai-t8",
+      "speaker": "agent",
+      "text": "Ngoại cũng nhớ con lắm! Lễ Tạ Ơn con về, Ngoại nấu canh chua cho con ăn nghe.",
+      "t": 54240
+    },
+    {
+      "id": "fx-ngoai-t9",
+      "speaker": "user",
+      "text": "Dạ yay! Con thích canh chua nhất. Ngoại khỏe không? Cái garden của Ngoại sao rồi?",
+      "t": 61600
+    },
+    {
+      "id": "fx-ngoai-t10",
+      "speaker": "agent",
+      "text": "Ngoại khỏe. Vườn của Ngoại năm nay trồng được nhiều rau thơm lắm, có húng quế, ngò gai nữa.",
+      "t": 69560
+    },
+    {
+      "id": "fx-ngoai-t11",
+      "speaker": "user",
+      "text": "Wow, con muốn help Ngoại trong vườn khi con về.",
+      "t": 74880
+    },
+    {
+      "id": "fx-ngoai-t12",
+      "speaker": "agent",
+      "text": "Được chứ, con về phụ Ngoại tưới cây nghe. Thôi con đi học đi, nhớ ăn uống đầy đủ nha con.",
+      "t": 82720
+    },
+    {
+      "id": "fx-ngoai-t13",
+      "speaker": "user",
+      "text": "Dạ, con thương Ngoại. Bye Ngoại!",
+      "t": 87140
+    }
+  ],
+  "analyses": [
+    {
+      "turnId": "fx-ngoai-t1",
+      "vietnameseRatio": 0.67,
+      "fullVietnamese": "Dạ con chào Ngoại. Con ăn rồi, con ăn cơm gà với bạn.",
+      "spans": [
+        {
+          "english": "chicken rice",
+          "vietnamese": "cơm gà"
+        },
+        {
+          "english": "friends",
+          "vietnamese": "bạn",
+          "note": "“bạn bè” is also common for friends in general."
+        }
+      ]
+    },
+    {
+      "turnId": "fx-ngoai-t3",
+      "vietnameseRatio": 0.8,
+      "fullVietnamese": "Dạ ngon. Ngoại ơi, tuần này con có bài kiểm tra giữa kỳ, nên con hơi căng thẳng.",
+      "spans": [
+        {
+          "english": "midterm",
+          "vietnamese": "bài kiểm tra giữa kỳ"
+        },
+        {
+          "english": "stressed",
+          "vietnamese": "căng thẳng"
+        }
+      ]
+    },
+    {
+      "turnId": "fx-ngoai-t5",
+      "vietnameseRatio": 0.86,
+      "fullVietnamese": "Dạ không đủ. Con thức khuya để học bài.",
+      "spans": [
+        {
+          "english": "study",
+          "vietnamese": "học bài"
+        }
+      ]
+    },
+    {
+      "turnId": "fx-ngoai-t7",
+      "vietnameseRatio": 0.88,
+      "fullVietnamese": "Con về dịp Lễ Tạ Ơn. Con nhớ Ngoại lắm.",
+      "spans": [
+        {
+          "english": "Thanksgiving",
+          "vietnamese": "Lễ Tạ Ơn"
+        }
+      ]
+    },
+    {
+      "turnId": "fx-ngoai-t9",
+      "vietnameseRatio": 0.88,
+      "fullVietnamese": "Dạ hay quá! Con thích canh chua nhất. Ngoại khỏe không? Vườn của Ngoại sao rồi?",
+      "spans": [
+        {
+          "english": "garden",
+          "vietnamese": "vườn",
+          "note": "“Cái vườn” works, but “vườn của Ngoại” sounds more natural."
+        }
+      ]
+    },
+    {
+      "turnId": "fx-ngoai-t11",
+      "vietnameseRatio": 0.82,
+      "fullVietnamese": "Con muốn phụ Ngoại làm vườn khi con về.",
+      "spans": [
+        {
+          "english": "help",
+          "vietnamese": "phụ",
+          "note": "Southern; Northern speakers say “giúp”."
+        }
+      ]
+    },
+    {
+      "turnId": "fx-ngoai-t13",
+      "vietnameseRatio": 0.83,
+      "fullVietnamese": "Dạ, con thương Ngoại. Con chào Ngoại!",
+      "spans": []
+    }
+  ]
+}

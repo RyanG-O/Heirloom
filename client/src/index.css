@@ -1,0 +1,13 @@
+:root {
+  --bg: #fbf7f0;
+  --fg: #2b2118;
+  --muted: #7a6a5a;
+  --accent: #b5452b;
+  --card: #ffffff;
+  --border: #e8dfd2;
+  font-family: "Be Vietnam Pro", system-ui, sans-serif; /* full Vietnamese diacritic support */
+  color: var(--fg);
+  background: var(--bg);
+}
+* { box-sizing: border-box; }
+body { margin: 0; }

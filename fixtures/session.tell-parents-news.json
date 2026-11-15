@@ -1,0 +1,56 @@
+{
+  "id": "fx-me",
+  "scenarioId": "tell-parents-news",
+  "startedAt": "2026-11-15T03:00:00.000Z",
+  "endedAt": "2026-11-15T03:00:46.000Z",
+  "turns": [
+    {
+      "id": "fx-me-t0",
+      "speaker": "agent",
+      "text": "Con về rồi hả? Sao hôm nay con vui vậy?",
+      "t": 4840
+    },
+    {
+      "id": "fx-me-t1",
+      "speaker": "user",
+      "text": "Mẹ ơi, con có tin vui! Con được một internship ở Seattle.",
+      "t": 10760
+    },
+    {
+      "id": "fx-me-t2",
+      "speaker": "agent",
+      "text": "Trời, con được đi thực tập hả? Công ty gì vậy con?",
+      "t": 16260
+    },
+    {
+      "id": "fx-me-t3",
+      "speaker": "user",
+      "text": "Một tech company, con sẽ làm software engineer.",
+      "t": 21580
+    },
+    {
+      "id": "fx-me-t4",
+      "speaker": "agent",
+      "text": "Giỏi quá! Mà lương có được không con? Ở đó con ở đâu?",
+      "t": 27260
+    },
+    {
+      "id": "fx-me-t5",
+      "speaker": "user",
+      "text": "Lương tốt lắm Mẹ. Công ty cho con housing nữa.",
+      "t": 32520
+    },
+    {
+      "id": "fx-me-t6",
+      "speaker": "agent",
+      "text": "Vậy thì Mẹ đỡ lo. Nhưng con nhớ ăn uống đàng hoàng, đừng ăn mì gói hoài nghe.",
+      "t": 39640
+    },
+    {
+      "id": "fx-me-t7",
+      "speaker": "user",
+      "text": "Dạ, con hứa. Mẹ đừng worry quá.",
+      "t": 44000
+    }
+  ]
+}

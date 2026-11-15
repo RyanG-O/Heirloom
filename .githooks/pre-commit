@@ -1,0 +1,3 @@
+#!/bin/sh
+# SanD Hacks commit-window guard. Enable with: npm run setup-git-hooks
+exec node "$(git rev-parse --show-toplevel)/.claude/hooks/commit-freeze.mjs" --git

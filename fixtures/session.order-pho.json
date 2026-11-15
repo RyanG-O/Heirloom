@@ -1,0 +1,62 @@
+{
+  "id": "fx-pho",
+  "scenarioId": "order-pho",
+  "startedAt": "2026-11-15T03:00:00.000Z",
+  "endedAt": "2026-11-15T03:00:51.380Z",
+  "turns": [
+    {
+      "id": "fx-pho-t0",
+      "speaker": "agent",
+      "text": "Chào con! Mấy người? Con ăn gì nè?",
+      "t": 4540
+    },
+    {
+      "id": "fx-pho-t1",
+      "speaker": "user",
+      "text": "Dạ, bốn người. Con muốn hai tô phở tái, large size.",
+      "t": 10100
+    },
+    {
+      "id": "fx-pho-t2",
+      "speaker": "agent",
+      "text": "Hai tô lớn phở tái nha. Còn hai người kia ăn gì con?",
+      "t": 15720
+    },
+    {
+      "id": "fx-pho-t3",
+      "speaker": "user",
+      "text": "Một tô phở gà, và một tô... um... the one with meatballs, small.",
+      "t": 22060
+    },
+    {
+      "id": "fx-pho-t4",
+      "speaker": "agent",
+      "text": "Một tô phở gà, một tô nhỏ phở bò viên. Uống gì không con?",
+      "t": 27980
+    },
+    {
+      "id": "fx-pho-t5",
+      "speaker": "user",
+      "text": "Dạ cho con bốn ly trà đá. Và extra herbs được không cô?",
+      "t": 33780
+    },
+    {
+      "id": "fx-pho-t6",
+      "speaker": "agent",
+      "text": "Được, cô cho thêm rau thơm nha. Đợi chút xíu nghe con.",
+      "t": 39520
+    },
+    {
+      "id": "fx-pho-t7",
+      "speaker": "user",
+      "text": "Dạ cảm ơn cô. Lát nữa cho con the check nha.",
+      "t": 44660
+    },
+    {
+      "id": "fx-pho-t8",
+      "speaker": "agent",
+      "text": "Ừ, ăn xong con kêu tính tiền là được.",
+      "t": 49380
+    }
+  ]
+}

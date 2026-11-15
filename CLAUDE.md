@@ -28,52 +28,60 @@ After each session the user gets a **learning report**: words they were missing,
 
 ---
 
-## 2. Architecture (suggested; adjust as the build evolves)
+## 2. Repo layout and commands
 
 ```
-React (Vite) ──► ElevenLabs Agent (WebRTC/WebSocket via @elevenlabs/react `useConversation`)
+client/          React + Vite (port 5173, proxies /api → 8787)
+server/          Express + tsx (port 8787); ElevenLabs token routes + Gemini routes
+shared/          types.ts (THE contract: Turn, TurnAnalysis, Report, API shapes), scenarios.ts
+fixtures/        session.<scenarioId>.json transcripts (+ reference analyses), report.call-ba-ngoai.json
+                 regenerate with `node fixtures/build.mjs`
+agent/prompt.md  ElevenLabs agent system prompt + dashboard checklist (source of truth)
+.claude/skills/  elevenlabs-agent, vi-codeswitch-analysis (read these before touching those areas)
+.claude/hooks/   commit-freeze.mjs (blocks git commit/push outside the hackathon window)
+```
+
+```bash
+npm install            # once, at repo root (npm workspaces)
+npm run dev            # server + client together → http://localhost:5173
+npm run typecheck      # tsc for client + server
+npm run setup-git-hooks  # enable the commit-freeze guard for manual git commits too
+```
+`GET /api/health` reports which keys are configured. Keys go in the root `.env` (see `.env.example`).
+
+**Verifying without a mic:** cloud sessions have no audio. Use mock mode (`?mock=1`, replays fixtures) plus a Playwright screenshot. Only a human on a laptop can verify the live voice call.
+
+### Parallel work briefs
+- **Session A (client):** scenario picker → call screen (status, mic button, live transcript) → report view. Mock mode replays `fixtures/session.*.json` through the same `addTurn` path as `onMessage`; the report view renders `fixtures/report.call-ba-ngoai.json` until `/api/report` works. Touch only `client/`.
+- **Session B (server):** implement `/api/analyze-turn` and `/api/report` with Gemini per the `vi-codeswitch-analysis` skill; test against the fixtures. Touch only `server/`.
+- Changes to `shared/types.ts` must be coordinated between the two sessions. Make them in a small separate commit first.
+
+## 3. Architecture
+
+```
+React (Vite) ──► ElevenLabs Agent (WebRTC via @elevenlabs/react v1 `useConversation`, inside <ConversationProvider>)
    │                 └─ onMessage → append to transcript state
    │
-   ├──► backend /api/signed-url      → ElevenLabs signed URL (keeps the xi-api-key server-side)
-   ├──► backend /api/analyze-turn    → Gemini: code-switch detection for one user turn (live hints)
-   └──► backend /api/report          → Gemini: full transcript → structured learning report (JSON)
+   ├──► backend /api/conversation-token → ElevenLabs WebRTC token (keeps the xi-api-key server-side)
+   ├──► backend /api/signed-url         → WebSocket fallback
+   ├──► backend /api/analyze-turn       → Gemini: code-switch detection for one user turn (live hints)
+   └──► backend /api/report             → Gemini: full transcript → structured learning report (JSON)
 ```
 
-- **Backend**: a small Node/Express (or Vite-proxied serverless) server. **No API keys in the browser.**
-- **Live code-switch loop (stretch, high demo value)**: after each user turn, send it to Gemini and get back `{ englishSpans: [{ en, vi, note }] }`. Highlight the spans in the transcript UI and push them to the agent via `sendContextualUpdate` so it naturally models the Vietnamese word in its reply.
-- **Report**: call Gemini with a JSON response schema (structured output) so the UI renders reliable fields, for example:
-  ```json
-  {
-    "summary": "...",
-    "missingWords": [{ "english": "dinner", "vietnamese": "bữa tối", "example": "..." }],
-    "wins": ["..."],
-    "toneNotes": ["..."],
-    "codeSwitchRatio": 0.35,
-    "nextScenarioSuggestion": "..."
-  }
-  ```
-- **Persistence (optional)**: store sessions, transcripts and reports in **Neon Postgres**. This also qualifies the project for the Neon track (see §4). If time is short, use in-memory or localStorage.
+- **No API keys in the browser.** All ElevenLabs/Gemini calls that need keys go through `server/`.
+- **Live code-switch loop (stretch, high demo value):** after each *user* turn, call `/api/analyze-turn` asynchronously and get a `TurnAnalysis` (`spans: [{ english, vietnamese, note? }]`). Highlight the spans in the transcript and push them to the agent via `sendContextualUpdate` so it models the Vietnamese word in its next reply. Never block the conversation on Gemini.
+- **Report:** `/api/report` returns a `Report` (see `shared/types.ts`) using Gemini structured output (`responseJsonSchema`). `fixtures/report.call-ba-ngoai.json` is the reference example.
+- **Persistence (optional)**: store sessions, transcripts and reports in **Neon Postgres**. This also qualifies the project for the Neon track (see §5). If time is short, use in-memory or localStorage.
 
-### Agent prompt guidelines (ElevenLabs dashboard or overrides)
-- Persona: a warm, patient Vietnamese family member or tutor. Use Southern or Northern dialect deliberately and stay consistent.
-- Always accept mixed English/Vietnamese input. Never scold or ask the user to "speak Vietnamese only".
-- Recast missing words inline, once, then move on. Keep replies short (1–3 sentences) so the user talks more.
-- Use correct kinship pronouns (con/bà/mẹ/ba…) for the chosen scenario.
-- Use a multilingual voice/model that handles Vietnamese and English in the same utterance.
+### Agent prompt
+The full system prompt, dynamic variables and dashboard checklist live in `agent/prompt.md`. In short: a warm family persona; always accept mixed English/Vietnamese; recast missing words once, inline; short replies; correct kinship pronouns; high turn-taking patience.
 
-### Environment variables (`.env`, never committed)
-```
-ELEVENLABS_API_KEY=
-ELEVENLABS_AGENT_ID=
-GEMINI_API_KEY=
-GEMINI_MODEL=            # keep the model name configurable
-DATABASE_URL=            # Neon, optional
-```
-Commit a `.env.example` with empty values. Add `.env` to `.gitignore` before the first push.
+### Environment variables
+Root `.env` (gitignored); template in `.env.example`: `ELEVENLABS_API_KEY`, `ELEVENLABS_AGENT_ID`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `DATABASE_URL` (optional, Neon), `PORT`.
 
 ---
 
-## 3. Hackathon rules that affect how we work
+## 4. Hackathon rules that affect how we work
 
 **Timezone: event times are Pacific (PST, UTC−8). The dev container clock is UTC.**
 
@@ -102,7 +110,7 @@ Hard rules:
 
 ---
 
-## 4. Judging and tracks: what to optimize for
+## 5. Judging and tracks: what to optimize for
 
 Judging is **science-fair style**: 3-minute pitch plus 2 minutes of Q&A per judge, and **the whole team must be at the table** (a missing member means a score of zero).
 
@@ -129,15 +137,15 @@ Credits available: ElevenLabs Creator tier (every participant), Neon promo credi
 
 ---
 
-## 5. Working conventions for Claude
+## 6. Working conventions for Claude
 
 - **Demo-first.** Priority order: (1) a voice conversation works end to end → (2) live transcript → (3) Gemini report → (4) live code-switch highlighting and agent hints → (5) persistence and polish.
 - Build a **fallback path**: if live audio fails on venue Wi-Fi (eduroam/UCSD-Guest), we can replay a saved transcript to generate the report and show the UI.
 - Render Vietnamese with full diacritics (UTF-8 everywhere; choose fonts that support Vietnamese).
 - Never commit secrets. Keep model names and agent IDs in env vars.
-- Keep the commit history inside the event window (see §3). Check `date -u` before any commit late Sunday morning.
+- Keep the commit history inside the event window (see §4). Check `date -u` before any commit late Sunday morning.
 
-## 6. Event reference
+## 7. Event reference
 - Website: https://hackathon.csesatucsd.com · Devpost: https://sand-hacks-26.devpost.com/ · Communication happens on the event Slack.
 - Hacking space: Qualcomm Conference Room, Jacobs Hall. Opening and closing ceremonies are in Warren Lecture Hall 2005.
 - Help: event Slack or the Help Desk (staff wear hackathon t-shirts). Emergencies: UCPD (858) 534-4357 or 911.

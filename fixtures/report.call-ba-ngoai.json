@@ -1,0 +1,80 @@
+{
+  "summary": "You held a full catch-up call with Bà Ngoại and stayed in Vietnamese for most of it. Your kinship pronouns (con/Ngoại) and polite “Dạ” were consistent throughout. You reached for English mostly on school words and everyday nouns.",
+  "vietnameseRatio": 0.82,
+  "missingWords": [
+    {
+      "english": "midterm",
+      "vietnamese": "bài kiểm tra giữa kỳ",
+      "example": "Tuần này con có bài kiểm tra giữa kỳ.",
+      "count": 1
+    },
+    {
+      "english": "stressed",
+      "vietnamese": "căng thẳng",
+      "example": "Con hơi căng thẳng.",
+      "count": 1
+    },
+    {
+      "english": "study",
+      "vietnamese": "học bài",
+      "example": "Con thức khuya để học bài.",
+      "count": 1
+    },
+    {
+      "english": "garden",
+      "vietnamese": "vườn",
+      "example": "Vườn của Ngoại sao rồi?",
+      "count": 1
+    },
+    {
+      "english": "help",
+      "vietnamese": "phụ (South) / giúp (North)",
+      "example": "Con muốn phụ Ngoại làm vườn.",
+      "count": 1
+    },
+    {
+      "english": "Thanksgiving",
+      "vietnamese": "Lễ Tạ Ơn",
+      "example": "Con về dịp Lễ Tạ Ơn.",
+      "count": 1
+    },
+    {
+      "english": "chicken rice",
+      "vietnamese": "cơm gà",
+      "example": "Con ăn cơm gà với bạn.",
+      "count": 1
+    },
+    {
+      "english": "friends",
+      "vietnamese": "bạn / bạn bè",
+      "example": "Con đi ăn với bạn bè.",
+      "count": 1
+    }
+  ],
+  "wins": [
+    "“Con nhớ Ngoại lắm”: natural and warm, with “lắm” placed exactly right.",
+    "“Con thích canh chua nhất”: correct superlative with “nhất”.",
+    "Opened every reply with “Dạ”, which is perfect politeness for talking to a grandparent."
+  ],
+  "corrections": [
+    {
+      "said": "Cái garden của Ngoại sao rồi?",
+      "better": "Vườn của Ngoại sao rồi?",
+      "why": "“Cái” is fine but unnecessary here; dropping it sounds more natural."
+    },
+    {
+      "said": "Bye Ngoại!",
+      "better": "Con chào Ngoại!",
+      "why": "With elders, “con chào …” is the respectful goodbye."
+    }
+  ],
+  "pronunciationTips": [
+    "Practice the hỏi tone in “khỏe” (dip then rise). It's easy to flatten into a ngang tone.",
+    "“Thương” ends in “-ương”: round your lips at the end."
+  ],
+  "nextSteps": [
+    "Review the 8 missing words with flashcards; try school vocab first.",
+    "Next call, try to describe your week without “study” or “midterm”."
+  ],
+  "nextScenarioSuggestion": "tell-parents-news"
+}
